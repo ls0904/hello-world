@@ -5,13 +5,13 @@
     <ul>
       <li v-for="(todo,index) in todos" :key='todo.id'>
 
-        {{ todo.name  }} --- <button @click="delTo(index)" class="del">删除</button>
+        {{ todo.name  }} --- <button @click="delTo(index,todo.id)" class="del">删除</button>
       </li>
     </ul>
   </div>
 </template>
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'app',
@@ -25,26 +25,34 @@ export default {
   },
   methods: {
     addTo () {
-      if (this.list) {
-        this.todos.push({ name: this.list })
-        this.list = ''
-        this.$refs['myList'].focus()
+      let obj = {
+        name: this.list
       }
+
+      this.$http.post('/todos', obj)
+        .then(res => {
+          this.todos.push(res)
+        }).catch(err => {
+          alert(err.msg);
+        })
+      this.list = ''
+      this.$refs['myList'].focus()
     },
-    delTo (index) {
-      this.todos.splice(index, 1)
+    delTo (index, id) {
+      this.$http.delete(`/todos/${id}`)
+        .then(res => {
+          this.todos.splice(index, 1)
+        }).catch(err => {
+          alert('删除失败', err.message)
+        }
+        )
     }
   },
   created () {
-    axios.get('http://localhost:8080/api/todos.json')
-      .then(response => {
-        let res = response.data
-        if (res.code === 0) {
-          this.todos = res.data
-          console.log(res);
-        } else {
-          alert(res.msg)
-        }
+    this.$http.get('/todos')
+      .then(res => {
+        console.log(res)
+        this.todos = res
       })
   }
 }

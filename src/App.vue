@@ -41,10 +41,10 @@ export default {
         let res = response.data
         if (res.code === 0) {
           this.todos = res.data
+          console.log(res);
         } else {
           alert(res.msg)
         }
-        console.log(response)
       })
   }
 }

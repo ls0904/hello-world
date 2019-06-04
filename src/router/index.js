@@ -87,6 +87,7 @@ const routes = [
 ]
 // 4、实例化路由器对象
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 // 5、将第四步中的东西暴露出去

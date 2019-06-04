@@ -8,7 +8,7 @@
 </template>
 <script>
 export default {
-  props: [ 'id', 'name','abc'],
+  props: ['id', 'name', 'abc'],
   mounted () {
     console.log(this.id)
     console.log(this.name)

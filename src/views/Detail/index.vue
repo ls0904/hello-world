@@ -6,18 +6,17 @@
 
 <script>
 export default {
-  beforeRouteEnter (to,from,next) {
-    console.log('进入当前组件');
+  beforeRouteEnter (to, from, next) {
+    console.log('进入当前组件')
     next()
   },
-  beforeRouteUpdate (to,from,next) {
-    console.log('当前组件更新');
+  beforeRouteUpdate (to, from, next) {
+    console.log('当前组件更新')
     next()
   },
-  beforeRouteLeave (to,from,next) {
-    console.log('离开当前组件');
+  beforeRouteLeave (to, from, next) {
+    console.log('离开当前组件')
     next()
   }
 }
 </script>
-

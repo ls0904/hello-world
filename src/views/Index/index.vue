@@ -1,6 +1,16 @@
 <template>
   <div>
     <router-view></router-view>
-    <h1>我是首页</h1>
+    <ul>
+      <li>
+        <router-link to='/home'>去首页页面</router-link>
+      </li>
+      <li>
+        <router-link to='/about'>去关于页面</router-link>
+      </li>
+      <li>
+        <router-link to='/center'>去我的页面</router-link>
+      </li>
+    </ul>
   </div>
 </template>

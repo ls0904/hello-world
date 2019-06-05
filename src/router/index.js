@@ -1,94 +1,58 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Page1 from '../views/Page1.vue'
-import Page2 from '../views/Page2.vue'
-import Detail from '../views/Detail.vue'
-import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
-import Admin from '../views/Admin.vue'
-import Left from '../views/Left.vue'
-import Right from '../views/Right.vue'
-// 2、使用VueRouter 插件
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+import Index from '../views/Index/index.vue'
+import Detail from '../views/Detail/index.vue'
+import About from '../views/Index/about.vue'
+import Home from '../views/Index/home.vue'
 Vue.use(VueRouter)
-// 3、配置路由规则 [{},{},{}]
-const routes = [
-  {
-    path: '/home',
-    component: Home,
-    children: [
-      {
-        path: 'page1',
-        name: 'page1',
-        component: Page1
-      },
-      {
-        path: 'page2',
-        name: 'page2',
-        component: Page2
-      },
-      {
-        path: '',
-        redirect: '/home/page1'
-      }
-    ]
-  },
-  {
-    // 通过：来指定后面的id是动态路由参数
-    path: '/detail/:id/:name',
-    name: 'detail',
-    component: Detail,
-    props: (route) => {
-      return {
-        abc: route.query.abc,
-        id: route.params.id,
-        name: route.params.name
+
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/',
+      component: Index,
+      children: [
+        {
+          path: 'home',
+          component: Home
+        },
+        {
+          path: 'about',
+          component: About
+        },
+        {
+          path: '',
+          redirect: '/home'
+        }
+      ]
+    },
+    {
+      path: '/detail',
+      component: Detail,
+      beforeEnter: (to,from,next) =>{
+        console.log('详情独享');
+        next()
       }
     }
-  },
-  {
-    path: '/login',
-    alias: '/hhhh',
-    component: Login
-  },
-  {
-    path: '/admin',
-    component: Admin,
-    children: [
-      {
-        path: 'add',
-        components: {
-          default: Page1,
-          aleft: Left,
-          aright: Right
-        }
-      },
-      {
-        path: 'del',
-        components: {
-          aleft: {
-            render (h) {
-              return h('p', 'ppp-left')
-            }
-          },
-          aright: {
-            render (h) {
-              return h('p', 'ppp-right')
-            }
-          }
-        }
-      }
-    ]
-  },
-  {
-    path: '*',
-    redirect: '/home/page1'
-  }
-
-]
-// 4、实例化路由器对象
-const router = new VueRouter({
-  mode: 'history',
-  routes
+  ]
 })
-// 5、将第四步中的东西暴露出去
+
+/**
+ * 全局前置守卫
+ * 接收一个函数，函数中有三个参数：
+ */
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  next()
+})
+// 后置守卫没有next
+router.afterEach((to, from) => {
+  setTimeout(() =>{
+    NProgress.done()
+  },2000)
+  console.log('后置')
+})
+
 export default router

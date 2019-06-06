@@ -5,6 +5,11 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+
+/**
+ *
+ */
+/* eslint-disable */
 new Vue({
   el: '#app',
   router,
